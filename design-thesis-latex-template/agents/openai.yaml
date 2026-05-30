@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design Thesis LaTeX Template"
+  short_description: "Build Chinese thesis LaTeX templates"
+  default_prompt: "Use $design-thesis-latex-template to create a complete LaTeX thesis template project from official Chinese university Word specifications and assets."
+policy:
+  allow_implicit_invocation: true
