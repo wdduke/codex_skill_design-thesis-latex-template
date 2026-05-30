@@ -1,14 +1,28 @@
 # design-thesis-latex-template Codex Skill
 
-This repository contains a Codex Skill named `design-thesis-latex-template`.
+这是一个用于 Codex 的 Skill，名称为 `design-thesis-latex-template`。
 
-The skill helps Codex design and implement maintainable LaTeX thesis template projects for Chinese universities from official Word/DOCX writing specifications, Word templates, PDF/image samples, and provided assets. It focuses on evidence-based specification extraction, clean LaTeX class architecture, class option design, metadata interfaces, bibliography support, print/electronic and blind-review variants, independent cover handling, scan-page workflows, tests, and warning-free compilation.
+它的目标是帮助 Codex 把中国高校的学位论文撰写规范、官方 Word 模板、PDF/图片样张和素材文件，沉淀成一个完整、可维护、可测试、适合 GitHub 管理的 LaTeX 学位论文模板项目。
 
-## Repository Layout
+更具体地说，这个 Skill 会引导 Codex：
+
+- 先从官方 Word/DOCX、PDF、图片、旧模板和素材中提取规范证据。
+- 不编造学校特定的字号、行距、页边距、封面坐标、颜色、书脊宽度等参数。
+- 设计清晰的 LaTeX 项目结构，而不是只写一个巨大的 `.cls` 文件。
+- 设计文档类选项、元数据接口、参考文献接口、版本矩阵、盲审安全策略、外封和扫描页方案。
+- 生成示例、测试脚本和最终编译验证流程。
+- 以“编译后无报错、无警告”为最终调试目标。
+
+详细的逐步使用方法见：
+
+[USE_GUIDE.md](USE_GUIDE.md)
+
+## 仓库结构
 
 ```text
 .
 ├─ README.md
+├─ USE_GUIDE.md
 └─ design-thesis-latex-template/
    ├─ SKILL.md
    ├─ agents/
@@ -33,56 +47,67 @@ The skill helps Codex design and implement maintainable LaTeX thesis template pr
       └─ check_latex_log.py
 ```
 
-## What This Skill Is For
+其中：
 
-Use this skill when you want Codex to turn a Chinese university's thesis requirements into a complete LaTeX template project. Typical inputs include official Word/DOCX writing specifications, official Word thesis templates, PDF notices, cover images, logos, fonts, PSD exports, scanned-page examples, and old LaTeX templates used only as engineering references.
+- `SKILL.md` 是 Skill 的入口说明，Codex 触发 Skill 后会先读取它。
+- `references/contents-and-order.md` 是内容导航和项目制作顺序说明。
+- `references/` 中其他文件分别沉淀规范解析、工程结构、接口设计、参考文献、版本、外封、扫描页、盲审、视觉回归、验证和发布流程。
+- `scripts/check_latex_log.py` 是日志检查脚本，用于扫描 LaTeX 编译日志中的错误和警告。
 
-The expected output is not just a `.cls` file. The skill guides Codex to produce a GitHub-ready template project with README, examples, class options, metadata commands, bibliography support, variants, cover/scanned-page handling, tests, and a warning-free compile target.
+## 适用场景
 
-## Installation Directory
+当你希望 Codex 完成下面这类任务时，可以使用本 Skill：
 
-Codex discovers personal skills from your local Codex skills directory.
+1. 你提供某所中国高校的学位论文撰写规范，一般是 Word/DOCX 文件。
+2. 你提供官方 Word 模板、PDF 通知、封面图片、Logo、字体、PSD 导出图、扫描页样例、旧 LaTeX 模板等素材。
+3. 你希望 Codex 生成完整 LaTeX 模板项目，而不仅是一个类文件。
+4. 你希望模板具有清晰目录结构、README、示例、测试、Git 版本控制和发布前检查。
+5. 你希望模板支持电子版/打印版、普通版/盲审版、本科/硕士/博士、学术型/专业型等不同版本。
 
-On Windows, the usual directory is:
+## 安装位置
+
+Codex 会从本地 Skills 目录发现个人 Skill。
+
+Windows 常见位置是：
 
 ```powershell
-C:\Users\<YourUserName>\.codex\skills
+C:\Users\<你的用户名>\.codex\skills
 ```
 
-You can open it with:
+可以用下面命令打开：
 
 ```powershell
 explorer "$env:USERPROFILE\.codex\skills"
 ```
 
-On macOS or Linux, the usual directory is:
+macOS/Linux 常见位置是：
 
 ```bash
 ~/.codex/skills
 ```
 
-If you use a custom `CODEX_HOME`, install this skill under:
+如果你配置了自定义 `CODEX_HOME`，则应安装到：
 
 ```text
 $CODEX_HOME/skills
 ```
 
-## Install From GitHub On Windows
+## Windows 安装方法
 
-Open PowerShell and choose a temporary download location:
+打开 PowerShell，先下载仓库：
 
 ```powershell
 cd "$env:USERPROFILE\Downloads"
 git clone https://github.com/wdduke/codex_skill_design-thesis-latex-template.git
 ```
 
-Create the Codex skills directory if it does not already exist:
+确保 Codex Skills 目录存在：
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
 ```
 
-Copy the whole skill folder:
+复制整个 Skill 文件夹：
 
 ```powershell
 Copy-Item -Recurse -Force `
@@ -90,17 +115,17 @@ Copy-Item -Recurse -Force `
   "$env:USERPROFILE\.codex\skills\design-thesis-latex-template"
 ```
 
-The final installed folder should be:
+最终目录应为：
 
 ```text
-C:\Users\<YourUserName>\.codex\skills\design-thesis-latex-template
+C:\Users\<你的用户名>\.codex\skills\design-thesis-latex-template
 ```
 
-Do not copy only `SKILL.md`. Copy the whole `design-thesis-latex-template` folder so `references/`, `scripts/`, and `agents/` are installed too.
+注意：不要只复制 `SKILL.md`，必须复制整个 `design-thesis-latex-template` 文件夹，否则 `references/` 和 `scripts/` 不会被安装。
 
-## Install From GitHub On macOS Or Linux
+## macOS/Linux 安装方法
 
-Open a terminal:
+打开终端：
 
 ```bash
 cd ~/Downloads
@@ -109,37 +134,15 @@ mkdir -p ~/.codex/skills
 cp -R ~/Downloads/codex_skill_design-thesis-latex-template/design-thesis-latex-template ~/.codex/skills/
 ```
 
-The final installed folder should be:
+最终目录应为：
 
 ```text
 ~/.codex/skills/design-thesis-latex-template
 ```
 
-## Update An Existing Installation
+## 验证安装是否成功
 
-Only replace this skill folder. Do not delete your whole `.codex/skills` directory because it may contain other skills.
-
-Windows:
-
-```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\design-thesis-latex-template"
-Copy-Item -Recurse -Force `
-  "$env:USERPROFILE\Downloads\codex_skill_design-thesis-latex-template\design-thesis-latex-template" `
-  "$env:USERPROFILE\.codex\skills\design-thesis-latex-template"
-```
-
-macOS/Linux:
-
-```bash
-rm -rf ~/.codex/skills/design-thesis-latex-template
-cp -R ~/Downloads/codex_skill_design-thesis-latex-template/design-thesis-latex-template ~/.codex/skills/
-```
-
-## Verify Installation
-
-Check that the required files exist.
-
-Windows:
+Windows：
 
 ```powershell
 Test-Path "$env:USERPROFILE\.codex\skills\design-thesis-latex-template\SKILL.md"
@@ -147,13 +150,13 @@ Test-Path "$env:USERPROFILE\.codex\skills\design-thesis-latex-template\reference
 Test-Path "$env:USERPROFILE\.codex\skills\design-thesis-latex-template\scripts\check_latex_log.py"
 ```
 
-Each command should print:
+每条命令都应输出：
 
 ```text
 True
 ```
 
-macOS/Linux:
+macOS/Linux：
 
 ```bash
 test -f ~/.codex/skills/design-thesis-latex-template/SKILL.md && echo OK
@@ -161,112 +164,88 @@ test -f ~/.codex/skills/design-thesis-latex-template/references/contents-and-ord
 test -f ~/.codex/skills/design-thesis-latex-template/scripts/check_latex_log.py && echo OK
 ```
 
-Each command should print `OK`.
+每条命令都应输出：
 
-You can also count files. The current skill contains 18 files.
-
-Windows:
-
-```powershell
-(Get-ChildItem -Recurse -File "$env:USERPROFILE\.codex\skills\design-thesis-latex-template").Count
+```text
+OK
 ```
 
-macOS/Linux:
-
-```bash
-find ~/.codex/skills/design-thesis-latex-template -type f | wc -l
-```
-
-## Validate Skill Metadata
-
-If your local Codex installation includes the built-in `skill-creator` system skill, run:
+如果本地有 Codex 自带的 `skill-creator` 系统 Skill，还可以运行：
 
 ```powershell
 python "$env:USERPROFILE\.codex\skills\.system\skill-creator\scripts\quick_validate.py" `
   "$env:USERPROFILE\.codex\skills\design-thesis-latex-template"
 ```
 
-Expected output:
+期望输出：
 
 ```text
 Skill is valid!
 ```
 
-If you do not have the validator, the file-existence checks above are enough to confirm that the skill was copied to the correct place.
+## 调用方式
 
-## How To Invoke The Skill
+安装后，建议重启 Codex 或开启一个新线程，使 Skill 列表刷新。
 
-After installation, restart Codex or start a new Codex thread so the skill list is refreshed.
-
-Explicit invocation:
+显式调用：
 
 ```text
-Use $design-thesis-latex-template. I will provide a Chinese university thesis Word specification, official Word template files, cover images, and old LaTeX template references. Please design the full LaTeX template project structure, class interfaces, variants, bibliography system, cover/scanned-page strategy, validation plan, and then implement the project.
+Use $design-thesis-latex-template. 请根据我提供的学校学位论文撰写规范 Word 文件、官方模板和素材，设计并实现完整的 LaTeX 学位论文模板项目。
 ```
 
-Natural invocation also works:
+自然语言调用也可以：
 
 ```text
-请根据这所学校的学位论文撰写规范 Word 文件和官方模板素材，设计并实现一个完整的 LaTeX 学位论文模板项目。
+请用 design-thesis-latex-template 这个 Skill，帮我把这所学校的学位论文规范沉淀成完整 LaTeX 模板项目。
 ```
 
-## Recommended Inputs
+## 推荐提供的材料
 
-For best results, provide:
+使用时建议一次性提供或说明这些材料：
 
-- Official Word/DOCX writing specification.
-- Official Word thesis template.
-- Official PDF notices or interpretation documents.
-- Cover samples, logos, PSD exports, or images.
-- Any existing LaTeX template that should be used only as an engineering reference.
-- Required output variants, such as electronic/print and normal/blind.
-- Whether the result should be public on GitHub or private/local only.
+- 学校官方学位论文撰写规范 Word/DOCX 文件。
+- 学校官方论文 Word 模板。
+- 学校发布的 PDF 通知、文件解读或格式说明。
+- 外封、内封、声明页、签字页、扫描页等图片或 PDF 样张。
+- 校徽、校名、封面背景、字体等素材。
+- 旧版 LaTeX 模板或其他学校模板，仅作为工程参考。
+- 需要支持的版本，例如电子版、打印版、盲审版、普通版。
+- 是否需要最终上传 GitHub，还是只在本地使用。
 
-## Recommended Workflow Inside The Skill
+## 使用过程中的关键原则
 
-The skill tells Codex to begin with:
+本 Skill 会要求 Codex 遵守：
 
-```text
-references/contents-and-order.md
-```
+- 不覆盖已有 Skill，除非用户明确同意。
+- 不删除任何原始素材。
+- 不自动发布、打 tag 或 push，除非用户明确要求。
+- 不编造学校规范参数。
+- 先建立规范证据表，再进行模板设计。
+- 外封、扫描页、盲审安全、参考文献、版本矩阵都要独立设计。
+- 最终调试目标是编译后没有警告和报错。
 
-The intended order is:
+## 日志检查脚本
 
-1. Read the skill map and production order.
-2. Inventory all source files.
-3. Extract school requirements into an evidence table.
-4. Ask about missing or conflicting parameters.
-5. Design the project structure.
-6. Design class options and metadata interfaces.
-7. Design bibliography, variants, cover pages, scan pages, and blind-review rules.
-8. Implement the LaTeX template project.
-9. Compile all examples.
-10. Eliminate warnings and errors.
-11. Package or publish only when explicitly asked.
-
-## Important Guardrails
-
-This skill tells Codex not to:
-
-- Overwrite existing skills unless the user explicitly agrees.
-- Delete original materials.
-- Automatically publish, tag, release, or push without explicit permission.
-- Invent school-specific design parameters.
-- Put all implementation logic into one huge `.cls` file.
-- Treat a single successful compile as final success.
-
-## Log Checking Utility
-
-The skill includes:
+Skill 内置脚本：
 
 ```text
 design-thesis-latex-template/scripts/check_latex_log.py
 ```
 
-Use it in a generated thesis template project to scan logs:
+可用于扫描 LaTeX 编译日志：
 
 ```powershell
 python path\to\check_latex_log.py build\thesis.log build\thesis.blg
 ```
 
-It reports LaTeX errors, package/class errors, warnings, overfull/underfull boxes, undefined references, undefined citations, and bibliography backend problems. By default, warnings make the script exit non-zero because this skill's target standard is warning-free compilation.
+它会检查：
+
+- LaTeX 错误
+- Package/Class 错误
+- LaTeX/Package/Class 警告
+- overfull/underfull box
+- 未定义引用
+- 未定义参考文献
+- biber/BibTeX 问题
+
+默认情况下，发现警告也会返回非零状态，因为这个 Skill 的目标是“无警告编译”。
